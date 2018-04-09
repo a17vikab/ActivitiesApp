@@ -3,6 +3,7 @@ package com.example.brom.activitiesapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MountainDetailsActivity extends AppCompatActivity {
 
@@ -15,6 +16,8 @@ public class MountainDetailsActivity extends AppCompatActivity {
         String name = extras.getString("EXTRA_NAME");
         String location = extras.getString("EXTRA_LOCATION");
         String height = extras.getString("EXTRA_HEIGHT");
+
+        Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
 
         TextView nameText = (TextView) findViewById(R.id.textView);
         TextView heightText = (TextView) findViewById(R.id.textView2);
