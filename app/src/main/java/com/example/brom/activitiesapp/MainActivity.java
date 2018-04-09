@@ -2,6 +2,15 @@ package com.example.brom.activitiesapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private String[] mountainNames = {"Matterhorn","Mont Blanc","Denali"};
@@ -13,6 +22,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String[] rawData = {"Matterhorn", "Mont Blanc", "Denali"};
+        List<String> listData = new ArrayList<String>(Arrays.asList(rawData));
+        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item_textview, R.id.my_item_textview, listData);
+        ListView myListView = (ListView)findViewById(R.id.my_listview);
+        myListView.setAdapter(adapter);
+        adapter.add("Mount Everest");
+
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+
+                String selectedText = mountainNames[position] + ", " + Integer.toString(mountainHeights[position]) + ", "
+                        + mountainLocations[position];
+
+
+                Toast.makeText(getApplicationContext(), selectedText, Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
         // 1. Create a ListView as in previous assignment
         // 2. Create a new activity named "MountainDetailsActivity
