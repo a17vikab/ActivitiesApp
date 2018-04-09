@@ -1,11 +1,13 @@
 package com.example.brom.activitiesapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,26 +25,40 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final ListView thelistview = (ListView)findViewById(R.id.myListView);
+
+        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item_textview, R.id.myTextView, mountainNames);
+
+        thelistview.setAdapter(adapter);
+
         String[] rawData = {"Matterhorn", "Mont Blanc", "Denali"};
         List<String> listData = new ArrayList<String>(Arrays.asList(rawData));
-        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_item_textview, R.id.my_item_textview, listData);
-        ListView myListView = (ListView)findViewById(R.id.my_listview);
+
+        ListView myListView = (ListView)findViewById(R.id.myListView);
         myListView.setAdapter(adapter);
-        adapter.add("Mount Everest");
+
 
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
 
-                String selectedText = mountainNames[position] + ", " + Integer.toString(mountainHeights[position]) + ", "
-                        + mountainLocations[position];
+                Intent intent = new Intent(getApplicationContext(), MountainDetailsActivity.class);
+                Bundle extras = new Bundle();
 
-
-                Toast.makeText(getApplicationContext(), selectedText, Toast.LENGTH_SHORT).show();
+                String name = mountainNames[position];
+                String location = mountainLocations[position];
+                String height = Integer.toString(mountainHeights[position]);
+                extras.putString("EXTRA_NAME", name);
+                extras.putString("EXTRA_LOCATION", location);
+                extras.putString("EXTRA_HEIGHT", height);
+                intent.putExtras(extras);
+                startActivity(intent);
 
             }
         });
+
+
 
         // 1. Create a ListView as in previous assignment
         // 2. Create a new activity named "MountainDetailsActivity
